@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React
-  // , { useEffect }
+, { useEffect }
   from 'react';
 import { createPortal } from 'react-dom';
 import { StyledModal, StyledOverlay } from './Modal.styled';
@@ -8,11 +8,6 @@ import { StyledModal, StyledOverlay } from './Modal.styled';
 const modalRoot = document.querySelector('#modal-root')
 
 export const Modal = ({ onCloseModal, children }) => {
-
-  // useEffect(() => {
-  //   window.addEventListener('keydown', handlerCloseModal)
-  //   return () => window.removeEventListener('keydown', handlerCloseModal);
-  // }, [])
 
   const handlerCloseModal = (e) => {
     const isEscBtn = e.code === "Escape";
@@ -22,6 +17,13 @@ export const Modal = ({ onCloseModal, children }) => {
       onCloseModal()
     }
   }
+
+  useEffect(() => {
+    const keydownHandler = (e) => handlerCloseModal(e);
+    window.addEventListener('keydown', keydownHandler)
+    return () => window.removeEventListener('keydown', keydownHandler);
+  }, [handlerCloseModal])
+
 
   return createPortal(
     <StyledOverlay onClick={handlerCloseModal}>
@@ -38,3 +40,5 @@ export const Modal = ({ onCloseModal, children }) => {
 Modal.propTypes = {
   onCloseModal: PropTypes.func.isRequired,
 }
+
+
