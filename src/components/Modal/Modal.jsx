@@ -9,11 +9,6 @@ const modalRoot = document.querySelector('#modal-root')
 
 export const Modal = ({ onCloseModal, children }) => {
 
-  useEffect(() => {
-    window.addEventListener('keydown', handlerCloseModal)
-    return () => window.removeEventListener('keydown', handlerCloseModal);
-  }, [handlerCloseModal])
-
   const handlerCloseModal = (e) => {
     const isEscBtn = e.code === "Escape";
     const isBackdrop = e.target === e.currentTarget;
@@ -22,6 +17,13 @@ export const Modal = ({ onCloseModal, children }) => {
       onCloseModal()
     }
   }
+  
+  useEffect(() => {
+    window.addEventListener('keydown', handlerCloseModal)
+    return () => window.removeEventListener('keydown', handlerCloseModal);
+  }, [handlerCloseModal])
+
+  
 
   return createPortal(
     <StyledOverlay onClick={handlerCloseModal}>
