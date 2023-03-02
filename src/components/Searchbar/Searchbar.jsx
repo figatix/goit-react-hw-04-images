@@ -10,65 +10,55 @@ import {
 } from './Searchbar.styled'
 import { toast } from 'react-toastify';
 import { SearchIcon } from './SearchIcon';
+import { useState } from 'react';
 
 
-export default class Searchbar extends Component {
+const Searchbar = ({ query, onSubmitForm }) => {
+  const [inputValue, setInputValue] = useState('')
 
-  static propTypes = {
-    query: PropTypes.string.isRequired,
-    onSubmitForm: PropTypes.func.isRequired,
+  const handlerInputValue = (e) => {
+    setInputValue(e.target.value)
   }
 
-  state = {
-    inputValue: '',
-  }
-
-  handlerInputValue = (e) => {
-    this.setState({
-      inputValue: e.target.value
-    })
-  }
-
-  onSubmit = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault()
-    const value = this.state.inputValue.toLowerCase().trim()
+    const value = inputValue.toLowerCase().trim()
     if (!value) {
       toast.error('Empty input')
       return
     }
-    if (this.props.query === value) {
+    if (query === value) {
       toast.error('Enter new query')
       return
     }
-
-    this.props.onSubmitForm(value)
+    onSubmitForm(value)
   }
 
-  render() {
-    const { inputValue } = this.state;
+  return (
+    <StyledSearcbar>
+      <StyledSearchForm onSubmit={onSubmit}>
+        <StyledSearchFormBtn type="submit" >
+          <SearchIcon />
+          <StyledSearchFormBtnLabel>Search</StyledSearchFormBtnLabel>
+        </StyledSearchFormBtn>
 
-    return (
-      <StyledSearcbar>
-        <StyledSearchForm onSubmit={this.onSubmit}>
-          <StyledSearchFormBtn type="submit" >
-            <SearchIcon />
-            <StyledSearchFormBtnLabel>Search</StyledSearchFormBtnLabel>
-          </StyledSearchFormBtn>
-
-          <StyledSearchFormInput
-            type="text"
-            autoComplete="off"
-            onChange={this.handlerInputValue}
-            name="searchInput"
-            value={inputValue}
-            autoFocus
-            placeholder="Search images and photos"
-          />
-        </StyledSearchForm>
-      </StyledSearcbar>
-    )
-  }
+        <StyledSearchFormInput
+          type="text"
+          autoComplete="off"
+          onChange={handlerInputValue}
+          name="searchInput"
+          value={inputValue}
+          autoFocus
+          placeholder="Search images and photos"
+        />
+      </StyledSearchForm>
+    </StyledSearcbar>
+  )
 }
 
+export default Searchbar;
 
-
+Searchbar.propTypes = {
+  query: PropTypes.string.isRequired,
+  onSubmitForm: PropTypes.func.isRequired,
+}
