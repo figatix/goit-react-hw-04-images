@@ -19,9 +19,13 @@ export const Modal = ({ onCloseModal, children }) => {
   }
   
   useEffect(() => {
-    window.addEventListener('keydown', handlerCloseModal)
-    return () => window.removeEventListener('keydown', handlerCloseModal);
-  }, [handlerCloseModal])
+    const keydownHandler = (e) => handlerCloseModal(e);
+    window.addEventListener('keydown', keydownHandler);
+
+    return () => {
+      window.removeEventListener('keydown', keydownHandler);
+    };
+  }, [handlerCloseModal]);
 
   
 
