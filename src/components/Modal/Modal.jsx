@@ -12,7 +12,7 @@ export const Modal = ({ onCloseModal, children }) => {
   useEffect(() => {
     window.addEventListener('keydown', handlerCloseModal)
     return () => window.removeEventListener('keydown', handlerCloseModal);
-  }, [])
+  }, [handlerCloseModal])
 
   const handlerCloseModal = (e) => {
     const isEscBtn = e.code === "Escape";
