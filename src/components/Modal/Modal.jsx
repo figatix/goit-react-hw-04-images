@@ -18,17 +18,6 @@ export const Modal = ({ onCloseModal, children }) => {
     }
   }
 
-  useEffect(() => {
-    const keydownHandler = (e) => handlerCloseModal(e);
-    window.addEventListener('keydown', keydownHandler);
-
-    return () => {
-      window.removeEventListener('keydown', keydownHandler);
-    };
-  }, [handlerCloseModal]);
-
-
-
   return createPortal(
     <StyledOverlay onClick={handlerCloseModal}>
       <StyledModal >
