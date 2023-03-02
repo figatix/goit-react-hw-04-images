@@ -20,9 +20,13 @@ export const Modal = ({ onCloseModal, children }) => {
 
   useEffect(() => {
     const keydownHandler = (e) => handlerCloseModal(e);
-    window.addEventListener('keydown', keydownHandler)
-    return () => window.removeEventListener('keydown', keydownHandler);
-  }, [handlerCloseModal])
+    window.addEventListener('keydown', keydownHandler);
+
+    return () => {
+      window.removeEventListener('keydown', keydownHandler);
+    };
+  }, [handlerCloseModal]);
+
 
 
   return createPortal(
@@ -40,5 +44,3 @@ export const Modal = ({ onCloseModal, children }) => {
 Modal.propTypes = {
   onCloseModal: PropTypes.func.isRequired,
 }
-
-
